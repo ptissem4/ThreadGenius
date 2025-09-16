@@ -48,6 +48,23 @@ const App: React.FC = () => {
   const [scheduledPosts, setScheduledPosts] = useLocalStorage<ScheduledPost[]>('scheduledPosts', []);
   const [socialAccounts, setSocialAccounts] = useLocalStorage<SocialAccount[]>('socialAccounts', []);
 
+  // Startup check for API key. This prevents the app from running without proper configuration.
+  if (!process.env.API_KEY) {
+    return (
+      <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center text-center p-4">
+        <div className="bg-red-900/50 border border-red-700 p-8 rounded-lg max-w-lg">
+          <h1 className="text-3xl font-bold text-red-300 mb-4">Erreur de Configuration</h1>
+          <p className="text-red-200 mb-2">
+            La clé API de Google Gemini est manquante.
+          </p>
+          <p className="text-gray-400">
+            Veuillez vous assurer d'avoir configuré la variable d'environnement <code className="bg-gray-700 p-1 rounded">API_KEY</code> dans les paramètres de votre déploiement (par exemple, sur Vercel) avant d'utiliser l'application.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   const handleSelectPostContent = useCallback((content: string) => {
     setTopic(content);
     document.getElementById('generator-section')?.scrollIntoView({ behavior: 'smooth' });

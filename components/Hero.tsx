@@ -9,7 +9,7 @@ export const Hero: React.FC = () => {
     return (
         <div className="text-center py-16 px-4 sm:py-24">
             <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
-                Créez des Threads Viraux en Secondes
+                Créez des Threads Viraux avec l'IA en Secondes
             </h1>
             <p className="mt-6 text-lg max-w-2xl mx-auto leading-8 text-gray-400">
                 Utilisez l'IA pour transformer vos idées en contenu captivant pour Twitter/X, LinkedIn et Threads. Pas d'inscription requise.
