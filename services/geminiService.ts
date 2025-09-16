@@ -1,16 +1,13 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import type { Tone, Length, SocialAccount, Platform } from '../types';
 
-let ai: GoogleGenAI | null = null;
+// Per guidelines, API key must come from environment variables.
+// The app will fail to load if the key is not provided, which is the correct behavior.
+if (!process.env.API_KEY) {
+  throw new Error("API_KEY environment variable not set. Please configure it before running the application.");
+}
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
-export const initializeAi = (apiKey: string) => {
-  if (!apiKey) {
-    console.error("Attempted to initialize AI without an API key.");
-    return;
-  }
-  ai = new GoogleGenAI({ apiKey });
-  console.log("Gemini AI Initialized");
-};
 
 const threadSchema = {
   type: Type.OBJECT,
@@ -33,8 +30,6 @@ const threadSchema = {
 };
 
 export const generateThread = async (topic: string, tone: Tone, length: Length) => {
-  if (!ai) throw new Error("AI not initialized. Please set API Key.");
-  
   const prompt = `
     You are ThreadGenius, an expert in creating viral social media content.
     Generate a social media thread about "${topic}".
@@ -84,8 +79,6 @@ const topicIdeasSchema = {
 
 
 export const getTopicIdeas = async () => {
-  if (!ai) throw new Error("AI not initialized. Please set API Key.");
-
   const prompt = `
     You are an expert social media strategist.
     Suggest 5 trending and engaging topics for social media threads.
@@ -154,8 +147,6 @@ const trendingPostSchema = {
 };
 
 export const getTrendingPosts = async (category: string, account?: SocialAccount) => {
-  if (!ai) throw new Error("AI not initialized. Please set API Key.");
-
   const personalizationPrompt = account
     ? `The analysis should be hyper-personalized for a social media account with the handle "${account.handle}" that operates in the "${account.niche}" niche. The generated examples should resonate with this specific audience.`
     : `The analysis should be general for the specified category.`;

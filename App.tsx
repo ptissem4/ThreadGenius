@@ -13,9 +13,8 @@ import { CalendarView } from './components/CalendarView';
 import { ScheduleModal } from './components/ScheduleModal';
 import { SettingsView } from './components/SettingsView';
 import { AddAccountModal } from './components/AddAccountModal';
-import { ApiKeyModal } from './components/ApiKeyModal';
 import { useLocalStorage } from './hooks/useLocalStorage';
-import { generateThread, getTopicIdeas, initializeAi } from './services/geminiService';
+import { generateThread, getTopicIdeas } from './services/geminiService';
 import { Tone, Length, Platform } from './types';
 import type { GeneratedThread, TrendingPost, ThreadPost, ScheduledPost, SocialAccount } from './types';
 import { FREE_GENERATIONS_LIMIT } from './constants';
@@ -23,7 +22,6 @@ import { FREE_GENERATIONS_LIMIT } from './constants';
 const App: React.FC = () => {
   // App State
   const [view, setView] = useState<'generator' | 'calendar' | 'settings'>('generator');
-  const [apiKey, setApiKey] = useLocalStorage<string | null>('apiKey', null);
 
   // Form State
   const [topic, setTopic] = useState<string>('');
@@ -49,13 +47,6 @@ const App: React.FC = () => {
   const [history, setHistory] = useLocalStorage<GeneratedThread[]>('generationHistory', []);
   const [scheduledPosts, setScheduledPosts] = useLocalStorage<ScheduledPost[]>('scheduledPosts', []);
   const [socialAccounts, setSocialAccounts] = useLocalStorage<SocialAccount[]>('socialAccounts', []);
-
-  useEffect(() => {
-    if (apiKey) {
-      initializeAi(apiKey);
-    }
-  }, [apiKey]);
-
 
   const handleSelectPostContent = useCallback((content: string) => {
     setTopic(content);
@@ -119,6 +110,7 @@ const App: React.FC = () => {
     setSelectedImage(thread.image || null);
     setIsHistoryPanelOpen(false);
     setView('generator');
+    document.getElementById('generator-section')?.scrollIntoView({ behavior: 'smooth' });
   };
   
   const handleOpenScheduleModal = (thread: GeneratedThread) => {
@@ -160,10 +152,6 @@ const App: React.FC = () => {
       setScheduledPosts(prev => prev.filter(p => p.accountId !== accountId));
   };
   
-  if (!apiKey) {
-    return <ApiKeyModal onKeySubmit={setApiKey} />;
-  }
-
   const renderView = () => {
     switch(view) {
         case 'calendar':

@@ -7,7 +7,7 @@ export const Footer: React.FC = () => {
             <div className="max-w-7xl mx-auto py-8 px-6 lg:px-8">
                 <div className="flex flex-col items-center space-y-4">
                      <a 
-                        href="https://github.com/"
+                        href="https://github.com/ptissem4/ThreadGenius"
                         target="_blank" 
                         rel="noopener noreferrer" 
                         className="text-gray-500 hover:text-white transition-colors"
