@@ -1,9 +1,16 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import type { Tone, Length, SocialAccount, Platform } from '../types';
 
-// The API key is now checked within the main App component to provide a better user experience on error.
-// The app will display a configuration error message instead of crashing.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
+// This function initializes the AI client on-demand.
+// This prevents the app from crashing on startup if the API key is not yet configured.
+const getAiClient = () => {
+  const apiKey = process.env.API_KEY;
+  if (!apiKey) {
+    // This case is primarily handled in App.tsx, but this serves as a safeguard.
+    throw new Error("Google Gemini API key is not configured in environment variables.");
+  }
+  return new GoogleGenAI({ apiKey });
+};
 
 
 const threadSchema = {
@@ -42,6 +49,7 @@ export const generateThread = async (topic: string, tone: Tone, length: Length) 
   `;
 
   try {
+    const ai = getAiClient();
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
       contents: prompt,
@@ -84,6 +92,7 @@ export const getTopicIdeas = async () => {
   `;
 
   try {
+    const ai = getAiClient();
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
       contents: prompt,
@@ -163,6 +172,7 @@ export const getTrendingPosts = async (category: string, account?: SocialAccount
   `;
 
   try {
+    const ai = getAiClient();
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
       contents: prompt,
