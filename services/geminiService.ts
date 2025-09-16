@@ -1,12 +1,9 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import type { Tone, Length, SocialAccount, Platform } from '../types';
 
-// Per guidelines, API key must come from environment variables.
-// The app will fail to load if the key is not provided, which is the correct behavior.
-if (!process.env.API_KEY) {
-  throw new Error("API_KEY environment variable not set. Please configure it before running the application.");
-}
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// The API key is now checked within the main App component to provide a better user experience on error.
+// The app will display a configuration error message instead of crashing.
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
 
 
 const threadSchema = {

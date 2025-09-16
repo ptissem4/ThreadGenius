@@ -57,8 +57,8 @@ const App: React.FC = () => {
           <p className="text-red-200 mb-2">
             La clé API de Google Gemini est manquante.
           </p>
-          <p className="text-gray-400">
-            Veuillez vous assurer d'avoir configuré la variable d'environnement <code className="bg-gray-700 p-1 rounded">API_KEY</code> dans les paramètres de votre déploiement (par exemple, sur Vercel) avant d'utiliser l'application.
+          <p className="text-gray-400 mt-4">
+            Allez dans les paramètres de votre projet sur Vercel, ajoutez la variable d'environnement <code className="bg-gray-700 p-1 rounded">API_KEY</code> avec votre clé, puis <span className="font-bold text-white">redéployez</span> votre application pour que les changements prennent effet.
           </p>
         </div>
       </div>
