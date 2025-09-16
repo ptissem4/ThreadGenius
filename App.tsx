@@ -23,14 +23,15 @@ type View = 'generator' | 'calendar' | 'settings';
 
 const App: React.FC = () => {
   // This check is crucial for production. It ensures the app doesn't run without a configured API key.
-  if (!process.env.API_KEY) {
+  // Vercel (and other modern hosts) require the VITE_ prefix to expose env variables to the browser.
+  if (!process.env.VITE_API_KEY) {
     return (
       <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center p-4">
         <div className="bg-red-900/50 border border-red-700 rounded-lg p-8 max-w-2xl text-center">
           <h1 className="text-3xl font-bold text-red-300 mb-4">Erreur de Configuration</h1>
           <p className="text-red-200 mb-6">La clé API de Google Gemini est manquante.</p>
           <p className="text-gray-300">
-            Allez dans les paramètres de votre projet sur Vercel, ajoutez la variable d'environnement <code className="bg-gray-800 p-1 rounded-md font-mono">API_KEY</code> avec votre clé, puis <strong className="text-white">redéployez</strong> votre application pour que les changements prennent effet.
+            Allez dans les paramètres de votre projet sur Vercel, ajoutez la variable d'environnement <code className="bg-gray-800 p-1 rounded-md font-mono">VITE_API_KEY</code> avec votre clé, puis <strong className="text-white">redéployez</strong> votre application pour que les changements prennent effet.
           </p>
         </div>
       </div>
