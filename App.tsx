@@ -18,23 +18,14 @@ import { ScheduleModal } from './components/ScheduleModal';
 import { CalendarView } from './components/CalendarView';
 import { SettingsView } from './components/SettingsView';
 import { AddAccountModal } from './components/AddAccountModal';
+import { VercelDebug } from './components/VercelDebug';
 
 type View = 'generator' | 'calendar' | 'settings';
 
 const App: React.FC = () => {
   // This check is crucial for production. It ensures the app doesn't run without a configured API key.
   if (!process.env.API_KEY) {
-    return (
-      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center p-4">
-        <div className="bg-red-900/50 border border-red-700 rounded-lg p-8 max-w-2xl text-center">
-          <h1 className="text-3xl font-bold text-red-300 mb-4">Erreur de Configuration</h1>
-          <p className="text-red-200 mb-6">La clé API de Google Gemini est manquante.</p>
-          <p className="text-gray-300">
-            Veuillez définir la variable d'environnement <code className="bg-gray-800 p-1 rounded-md font-mono">API_KEY</code> pour que l'application fonctionne.
-          </p>
-        </div>
-      </div>
-    );
+    return <VercelDebug />;
   }
 
   const [topic, setTopic] = useState('');
