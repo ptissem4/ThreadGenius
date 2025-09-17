@@ -4,7 +4,7 @@ import type { Tone, Length, SocialAccount, Platform } from '../types';
 // This function initializes the AI client on-demand.
 // This prevents the app from crashing on startup if the API key is not yet configured.
 const getAiClient = () => {
-  const apiKey = process.env.VITE_API_KEY;
+  const apiKey = process.env.API_KEY;
   if (!apiKey) {
     // This case is primarily handled in App.tsx, but this serves as a safeguard.
     throw new Error("Google Gemini API key is not configured in environment variables.");
